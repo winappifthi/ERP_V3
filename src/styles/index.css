@@ -1,0 +1,49 @@
+@import './print.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ezy-page-bg: #f6f7f9;
+  --ezy-surface: #ffffff;
+  --ezy-border: #e5e7eb;
+  --ezy-text: #111827;
+  --ezy-muted: #6b7280;
+  --ezy-sidebar-bg: #0f172a;
+  --ezy-sidebar-hover: #1e293b;
+  --ezy-sidebar-active: #2563eb;
+}
+
+html, body, #root { height: 100%; margin: 0; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--ezy-page-bg);
+  color: var(--ezy-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numeric alignment in tables */
+.tabular-nums { font-variant-numeric: tabular-nums; }
+
+/* Focus visible ring for accessibility */
+:focus-visible {
+  outline: 2px solid var(--ezy-sidebar-active);
+  outline-offset: 2px;
+}
+@media print {
+  body * { visibility: hidden; }
+  .invoice-sheet, .invoice-sheet * { visibility: visible; }
+  .invoice-sheet {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .no-print { display: none !important; }
+  .print-wrapper { padding: 0 !important; }
+  @page { margin: 15mm; }
+}

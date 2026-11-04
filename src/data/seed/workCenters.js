@@ -1,0 +1,38 @@
+export const workCenters = [
+  {
+    id: 'WC-001',
+    companyId: 'COM-MFG',
+    code: 'WC-ASSY-01',
+    name: 'Assembly Line 1',
+    capacityPerDay: 20,
+    hourlyRate: 450,
+    active: true,
+  },
+  {
+    id: 'WC-002',
+    companyId: 'COM-MFG',
+    code: 'WC-ASSY-02',
+    name: 'Assembly Line 2',
+    capacityPerDay: 15,
+    hourlyRate: 450,
+    active: true,
+  },
+  {
+    id: 'WC-003',
+    companyId: 'COM-MFG',
+    code: 'WC-PAINT',
+    name: 'Painting & Finishing',
+    capacityPerDay: 30,
+    hourlyRate: 280,
+    active: true,
+  },
+  {
+    id: 'WC-004',
+    companyId: 'COM-MFG',
+    code: 'WC-QC',
+    name: 'Quality Control',
+    capacityPerDay: 40,
+    hourlyRate: 220,
+    active: true,
+  },
+];

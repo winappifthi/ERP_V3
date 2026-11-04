@@ -1,0 +1,156 @@
+# ============================================================
+# Dependencies
+# ============================================================
+node_modules/
+node_modules
+**/node_modules/
+
+# ============================================================
+# Build output
+# ============================================================
+dist/
+dist-ssr/
+build/
+*.local
+.vite/
+**/.vite/
+
+# ============================================================
+# Environment files (never commit real secrets)
+# ============================================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+# Allow example files if you use them
+!.env.example
+!.env.sample
+
+# ============================================================
+# Logs
+# ============================================================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+debug.log
+
+# ============================================================
+# Node / editor caches
+# ============================================================
+.cache/
+.parcel-cache/
+.npm/
+.eslintcache
+.stylelintcache
+.tmp/
+.temp/
+
+# ============================================================
+# Editor / IDE
+# ============================================================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+*.sublime-project
+
+# ============================================================
+# OS files
+# ============================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ============================================================
+# Test / coverage
+# ============================================================
+coverage/
+*.lcov
+.nyc_output/
+.nyc_output
+
+# ============================================================
+# React / Vite specific
+# ============================================================
+# Vite cache
+.vite/
+# Vite env types (usually committed, but exclude if generated)
+# vite-env.d.ts
+
+# ============================================================
+# Backend (server/) specific
+# ============================================================
+# Uploaded files via Multer — these are runtime data, not source
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Temporary upload dirs
+uploads/
+**/uploads/
+!**/uploads/.gitkeep
+
+# Mongoose / MongoDB backups
+*.bson
+*.gz
+dump/
+backup/
+mongo-backup/
+
+# Server-specific env / config
+server/.env
+server/config/local.js
+
+# Nodemon logs
+nodemon.log
+
+# ============================================================
+# Package manager lock files (choose what your team uses)
+# ============================================================
+# If you use npm, KEEP package-lock.json committed. Do NOT ignore it.
+# If you use yarn, KEEP yarn.lock committed. Do NOT ignore it.
+# Ignore alternates only:
+# pnpm-lock.yaml
+# bun.lockb
+
+# ============================================================
+# Misc
+# ============================================================
+*.bak
+*.bak.*
+*.orig
+*.rej
+*.pid
+*.seed
+*.pid.lock
+
+# Compressed / temporary files
+*.zip
+*.tar.gz
+*.rar
+
+# Report / doc artifacts (optional — remove if you want them tracked)
+# reports/
+# out/
+
+# Redux DevTools dumps
+*.redux-dump
+
+# Local dev-only data
+local-data/
+scratch/
+sandbox/

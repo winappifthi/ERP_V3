@@ -1,0 +1,154 @@
+import { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Button, TextField, Tabs, Tab, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
+import { Add } from '@mui/icons-material';
+import PageHeader from '../../../components/common/PageHeader';
+import DataTable from '../../../components/data-display/DataTable';
+import StatusBadge from '../../../components/common/StatusBadge';
+import {
+  selectCustomersForCompany,
+  selectVendorsForCompany,
+  selectCurrentCompany,
+  selectCurrentBranch,
+} from '../../../store/selectors/contextSelectors';
+import { calculateDocument } from '../../../domain/calculations/documentCalculator';
+import { formatINR } from '../../../lib/currency';
+import { formatDate } from '../../../lib/dayjs';
+import { useTransactionType, TYPE_META } from '../transactionHelpers';
+
+const ALLOWED = ['sales-order', 'purchase-order'];
+
+export default function UnifiedOrdersList() {
+  const navigate = useNavigate();
+  const { type, setType } = useTransactionType('sales-order', ALLOWED);
+  const meta = TYPE_META[type];
+
+  const salesOrders = useSelector((s) => s.sales.orders);
+  const purchaseOrders = useSelector((s) => s.purchases.orders);
+  const customers = useSelector(selectCustomersForCompany);
+  const vendors = useSelector(selectVendorsForCompany);
+  const company = useSelector(selectCurrentCompany);
+  const branch = useSelector(selectCurrentBranch);
+
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState('all');
+
+  const records = type === 'sales-order' ? salesOrders : purchaseOrders;
+  const parties = type === 'sales-order' ? customers : vendors;
+  const partyById = useMemo(
+    () => Object.fromEntries(parties.map((p) => [p.id, p])),
+    [parties]
+  );
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return records
+      .filter((r) => r.companyId === company?.id && r.branchId === branch?.id)
+      .filter((r) => status === 'all' || r.status === status)
+      .filter((r) => {
+        if (!q) return true;
+        const party = partyById[r[meta.partyField]];
+        return (
+          r.orderNumber.toLowerCase().includes(q) ||
+          (party?.name || '').toLowerCase().includes(q)
+        );
+      })
+      .map((r) => {
+        const calc = calculateDocument({
+          lines: r.lines,
+          headerDiscountRupees: r.headerDiscountRupees || 0,
+          charges: r.charges,
+          applyRoundOff: r.applyRoundOff ?? true,
+        });
+        return { ...r, totalPaise: calc.totals.finalTotalPaise };
+      });
+  }, [records, search, status, company, branch, partyById, meta.partyField]);
+
+  const columns = [
+    {
+      key: 'orderNumber',
+      label: `${meta.idPrefix} #`,
+      render: (r) => (
+        <button
+          onClick={() => navigate(`${meta.routeBase}/${r.id}?type=${type}`)}
+          className="text-blue-600 hover:underline font-mono text-xs"
+        >
+          {r.orderNumber}
+        </button>
+      ),
+    },
+    { key: 'orderDate', label: 'Date', render: (r) => formatDate(r.orderDate) },
+    {
+      key: meta.partyField,
+      label: meta.partyLabel,
+      render: (r) => partyById[r[meta.partyField]]?.name || '—',
+    },
+    {
+      key: 'totalPaise',
+      label: 'Total',
+      align: 'right',
+      render: (r) => <span className="tabular-nums">{formatINR(r.totalPaise)}</span>,
+    },
+    { key: 'status', label: 'Status', render: (r) => <StatusBadge status={r.status} /> },
+  ];
+
+  return (
+    <div>
+      <PageHeader
+        title="Orders"
+        description={`${company?.displayName || ''} · ${branch?.name || ''}`}
+        actions={
+          <Button
+            variant="contained"
+            startIcon={<Add />}
+            onClick={() => navigate(`${meta.routeBase}/new?type=${type}`)}
+          >
+            New {meta.label}
+          </Button>
+        }
+      />
+
+      <div className="bg-white border border-gray-200 rounded mb-3">
+        <Tabs value={type} onChange={(_, v) => setType(v)} sx={{ minHeight: 44 }}>
+          <Tab value="sales-order" label="Sales Orders" sx={{ minHeight: 44, fontSize: 13 }} />
+          <Tab value="purchase-order" label="Purchase Orders" sx={{ minHeight: 44, fontSize: 13 }} />
+        </Tabs>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mb-3">
+        <TextField
+          size="small"
+          placeholder={`Search ${meta.idPrefix} # or ${meta.partyLabel.toLowerCase()}…`}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          sx={{ width: { xs: '100%', sm: 320 } }}
+        />
+        <FormControl size="small" sx={{ minWidth: 160 }}>
+          <InputLabel>Status</InputLabel>
+          <Select label="Status" value={status} onChange={(e) => setStatus(e.target.value)}>
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="draft">Draft</MenuItem>
+            <MenuItem value="pending">Pending</MenuItem>
+            <MenuItem value="approved">Approved</MenuItem>
+            <MenuItem value="partially-received">Partially Received</MenuItem>
+            <MenuItem value="received">Received</MenuItem>
+            <MenuItem value="completed">Completed</MenuItem>
+            <MenuItem value="cancelled">Cancelled</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+
+      <DataTable
+        columns={columns}
+        rows={filtered}
+        pageSize={15}
+        emptyMessage={`No ${meta.plural.toLowerCase()} yet.`}
+        emptyAction={{
+          label: `New ${meta.label}`,
+          onClick: () => navigate(`${meta.routeBase}/new?type=${type}`),
+        }}
+      />
+    </div>
+  );
+}

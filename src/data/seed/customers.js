@@ -1,0 +1,11 @@
+export const customers = [
+  { id: 'CUST-0001', companyId: 'COM-RETAIL', branchId: 'BR-RET-CHN', code: 'C001', name: 'Anand Traders', type: 'wholesale', gstin: '33AAAPA1234B1Z5', state: 'Tamil Nadu', stateCode: '33', creditLimit: 100000, outstanding: 25000, active: true },
+  { id: 'CUST-0002', companyId: 'COM-RETAIL', branchId: 'BR-RET-CHN', code: 'C002', name: 'Ramesh Kumar', type: 'retail', gstin: null, state: 'Tamil Nadu', stateCode: '33', creditLimit: 0, outstanding: 0, active: true },
+  { id: 'CUST-0003', companyId: 'COM-RETAIL', branchId: 'BR-RET-CBE', code: 'C003', name: 'Lakshmi Enterprises', type: 'wholesale', gstin: '33AABFL5678C1Z3', state: 'Tamil Nadu', stateCode: '33', creditLimit: 150000, outstanding: 62000, active: true },
+  { id: 'CUST-0004', companyId: 'COM-RETAIL', branchId: 'BR-RET-MDU', code: 'C004', name: 'Madurai Hardware Mart', type: 'retail', gstin: null, state: 'Tamil Nadu', stateCode: '33', creditLimit: 0, outstanding: 0, active: true },
+  { id: 'CUST-0005', companyId: 'COM-WHOLESALE', branchId: 'BR-WS-CHN', code: 'C005', name: 'South India Distributors', type: 'wholesale', gstin: '33AABSD9012D1Z1', state: 'Tamil Nadu', stateCode: '33', creditLimit: 500000, outstanding: 180000, active: true },
+  { id: 'CUST-0006', companyId: 'COM-WHOLESALE', branchId: 'BR-WS-BLR', code: 'C006', name: 'Karnataka Electricals', type: 'wholesale', gstin: '29AABCK3456E1Z8', state: 'Karnataka', stateCode: '29', creditLimit: 300000, outstanding: 95000, active: true },
+  { id: 'CUST-0007', companyId: 'COM-WHOLESALE', branchId: 'BR-WS-CHN', code: 'C007', name: 'Chennai Industrial Supplies', type: 'wholesale', gstin: '33AABCC7890F1Z6', state: 'Tamil Nadu', stateCode: '33', creditLimit: 400000, outstanding: 130000, active: true },
+  { id: 'CUST-0008', companyId: 'COM-MFG', branchId: 'BR-MFG-CHN', code: 'C008', name: 'Tata Motors Ltd', type: 'wholesale', gstin: '27AAACT1234G1Z8', state: 'Maharashtra', stateCode: '27', creditLimit: 1000000, outstanding: 350000, active: true },
+  { id: 'CUST-0009', companyId: 'COM-MFG', branchId: 'BR-MFG-CHN', code: 'C009', name: 'Ashok Leyland Ltd', type: 'wholesale', gstin: '33AAACA5678H1Z3', state: 'Tamil Nadu', stateCode: '33', creditLimit: 800000, outstanding: 210000, active: true },
+];
