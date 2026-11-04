@@ -1,12 +1,8 @@
 import { useState } from 'react';
-import { ChevronRight, ChevronDown, Folder } from '@mui/icons-material';
+import { ChevronRight, ExpandMore, Folder } from '@mui/icons-material';
 import { formatINR } from '../../../lib/currency';
 
-/**
- * Renders a tree of accounts grouped by parentCode.
- * `balances` is an optional map of accountCode -> net balance (paise, positive=debit).
- * Clicking a leaf node calls onLeafClick(code).
- */
+
 export default function AccountTree({ accounts, balances = {}, onLeafClick }) {
   const rootAccounts = accounts.filter((a) => !a.parentCode);
   return (
@@ -35,7 +31,7 @@ function TreeRow({ account, accounts, balances, onLeafClick, depth }) {
         }}
       >
         <span className="w-5 flex-shrink-0 text-gray-400">
-          {hasChildren ? (expanded ? <ChevronDown fontSize="small" /> : <ChevronRight fontSize="small" />) : <Folder fontSize="small" style={{ opacity: 0.5 }} />}
+          {hasChildren ? (expanded ? <ExpandMore fontSize="small" /> : <ChevronRight fontSize="small" />) : <Folder fontSize="small" style={{ opacity: 0.5 }} />}
         </span>
         <span className="flex-1">{account.name}</span>
         <span className="font-mono text-xs text-gray-500 mr-3">{account.code}</span>
